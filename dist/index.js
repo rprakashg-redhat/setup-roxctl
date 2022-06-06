@@ -6516,17 +6516,17 @@ var Inputs;
 var Outputs;
 (function (Outputs) {
     /**
+     * output from RHACS after running policy checks
+     * Required: false
+     * Default: None.
+     */
+    Outputs["OUTPUT"] = "output";
+    /**
      * Flag indicating all policy checks succeeded
      * Required: false
      * Default: None.
      */
     Outputs["PASS"] = "pass";
-    /**
-     * RHACS policy violations
-     * Required: false
-     * Default: None.
-     */
-    Outputs["VIOLATIONS"] = "violations";
 })(Outputs || (Outputs = {}));
 
 // EXTERNAL MODULE: ./node_modules/@actions/tool-cache/lib/tool-cache.js
@@ -6556,7 +6556,7 @@ class Installer {
     }
     static async download(url) {
         if (!url) {
-            return { found: false, reason: "URL where to download s2i is not valid." };
+            return { found: false, reason: "URL to download roxctl is not valid." };
         }
         let roxctl = await tool_cache.downloadTool(url);
         if (!(await io_util.exists(roxctl))) {
@@ -6628,11 +6628,11 @@ async function run() {
     const result = await Command.execute(roxctl, imageCheckCmd);
     if (result.exitCode != 0) {
         core.setOutput(Outputs.PASS, false);
-        core.setOutput(Outputs.VIOLATIONS, result.error);
+        core.setOutput(Outputs.OUTPUT, result.error);
     }
     //set output
     core.setOutput(Outputs.PASS, true);
-    core.setOutput(Outputs.VIOLATIONS, result);
+    core.setOutput(Outputs.OUTPUT, result.output);
 }
 run().catch(core.setFailed);
 
