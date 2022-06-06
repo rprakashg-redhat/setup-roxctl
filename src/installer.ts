@@ -19,7 +19,7 @@ export class Installer {
 
     static async download(url: string): Promise<FindBinaryStatus> {
         if (!url) {
-            return { found: false, reason: "URL where to download s2i is not valid." };
+            return { found: false, reason: "URL to download roxctl is not valid." };
         }
         
         let roxctl = await tc.downloadTool(url);
