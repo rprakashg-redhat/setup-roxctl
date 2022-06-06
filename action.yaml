@@ -1,5 +1,5 @@
 name: 'acs-policy-check'
-description: 'Check against a Red Hat Advanced Cluster Management Policy'
+description: 'Run policy checks with Red Hat Advanced Cluster Security (RHACS)'
 author: 'Red Hat'
 branding:
   icon: circle
