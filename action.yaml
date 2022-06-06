@@ -1,0 +1,27 @@
+name: 'acs-policy-check'
+description: 'Check against a Red Hat Advanced Cluster Management Policy'
+author: 'Red Hat'
+branding:
+  icon: circle
+  color: red
+inputs:
+  image:
+    description: "Container image"
+    required: true
+  roxctl_version:
+    description: "Roxctl version"
+    required: false
+  api_token:
+    description: "API Token generated from central"
+    required: true
+  central_url:
+    description: "Central URL"
+    required: true
+outputs:
+  pass:
+    description: Flag indicating all policy checks succeeded 
+  violations:
+    description: RHACS policy violations 
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
