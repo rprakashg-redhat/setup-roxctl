@@ -48,7 +48,7 @@ export async function run(): Promise<void> {
     } 
     //set output
     core.setOutput(Outputs.PASS, true);
-    core.setOutput(Outputs.VIOLATIONS, result);
+    core.setOutput(Outputs.VIOLATIONS, result.output);
 }
 
 run().catch(core.setFailed);
