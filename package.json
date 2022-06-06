@@ -1,7 +1,7 @@
 {
     "name": "acs-policy-check",
     "displayName": "RHACS policy check",
-    "description": "Red Hat Advanced Cluster Security (RHACS) policy check",
+    "description": "Run policy checks with Red Hat Advanced Cluster Security (RHACS)",
     "main": "dist/index.js",
     "scripts": {
         "compile": "tsc -p .",
