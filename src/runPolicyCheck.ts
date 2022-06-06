@@ -44,11 +44,11 @@ export async function run(): Promise<void> {
     const result = await Command.execute(roxctl, imageCheckCmd)
     if(result.exitCode != 0) {
         core.setOutput(Outputs.PASS, false);
-        core.setOutput(Outputs.VIOLATIONS, result.error)
+        core.setOutput(Outputs.OUTPUT, result.error)
     } 
     //set output
     core.setOutput(Outputs.PASS, true);
-    core.setOutput(Outputs.VIOLATIONS, result.output);
+    core.setOutput(Outputs.OUTPUT, result.output);
 }
 
 run().catch(core.setFailed);

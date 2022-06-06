@@ -28,15 +28,15 @@ export enum Inputs {
 
 export enum Outputs {
     /**
+     * output from RHACS after running policy checks
+     * Required: false
+     * Default: None.
+     */
+    OUTPUT = "output",
+    /**
      * Flag indicating all policy checks succeeded
      * Required: false
      * Default: None.
      */
     PASS = "pass",
-    /**
-     * RHACS policy violations
-     * Required: false
-     * Default: None.
-     */
-    VIOLATIONS = "violations",
 }
