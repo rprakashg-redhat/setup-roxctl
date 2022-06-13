@@ -1,9 +1,9 @@
 import * as core from "@actions/core";
 import * as tc from "@actions/tool-cache";
-import { RHACS_ASSETS_BASE_URL } from './constants'
-import { FindBinaryStatus } from "./helper";
 import * as ioUtil from "@actions/io/lib/io-util";
 import * as fs from "mz/fs";
+import { FindBinaryStatus } from "./helper";
+import { RHACS_ASSETS_BASE_URL } from "./constants";
 
 export class Installer {
     static async installRoxctl(version: string, runnerOS: string): Promise<FindBinaryStatus> {
@@ -11,9 +11,9 @@ export class Installer {
 
         const url = await Installer.getDownloadUrl(version, runnerOS);
         if (!url) {
-            core.debug("Error building roxctl download URL")
+            core.debug("Error building roxctl download URL");
         }
-        core.debug("Downloading roxctl")
+        core.debug("Downloading roxctl");
         return Installer.download(url);
     }
 
@@ -21,8 +21,7 @@ export class Installer {
         if (!url) {
             return { found: false, reason: "URL to download roxctl is not valid." };
         }
-        
-        let roxctl = await tc.downloadTool(url);
+        const roxctl = await tc.downloadTool(url);
         if (!(await ioUtil.exists(roxctl))) {
             return {
                 found: false,
@@ -33,26 +32,23 @@ export class Installer {
         fs.chmodSync(roxctl, "0755");
         return {
             found: true,
-            path: roxctl
+            path: roxctl,
         };
     }
 
     static async getDownloadUrl(version: string, runnerOS: string): Promise<string> {
         let url: string | undefined = `${RHACS_ASSETS_BASE_URL}`;
 
-        if (version != "") {
+        if (version !== "") {
             url += version + "/bin";
         }
         if (runnerOS === "Windows") {
-            url += "/Windows/roxctl.exe"
-        } else {
+            url += "/Windows/roxctl.exe";
+        }
+        else {
             url += "/Linux/roxctl";
         }
-
-        core.debug("Final roxctl download url: ${url}");
+        core.debug(`Final roxctl download url: ${url}`);
         return url;
     }
 }
-
-
-

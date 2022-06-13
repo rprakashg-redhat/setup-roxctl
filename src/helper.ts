@@ -1,4 +1,3 @@
-
 export interface BinaryFound {
     readonly found: true;
     readonly path: string;
@@ -10,4 +9,3 @@ export interface BinaryNotFound {
 }
 
 export type FindBinaryStatus = BinaryFound | BinaryNotFound;
-

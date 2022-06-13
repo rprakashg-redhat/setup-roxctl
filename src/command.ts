@@ -6,7 +6,7 @@ import { CommandResult } from "./types";
 
 export class Command {
     public static async execute(
-        binary: string, 
+        binary: string,
         args: string[],
         execOptions: exec.ExecOptions & { group?: boolean } = {}
     ): Promise<CommandResult> {
@@ -40,10 +40,11 @@ export class Command {
             }
 
             return {
-                exitCode, output: stdout, error: stderr
+                exitCode, output: stdout, error: stderr,
             };
 
-        } finally {
+        }
+        finally {
             if (execOptions.group) {
                 core.endGroup();
             }
