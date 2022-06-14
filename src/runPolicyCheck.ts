@@ -30,7 +30,7 @@ export async function run(): Promise<void> {
     }
     core.debug(runnerOS);
     const imageCheckCmd = [
-        "image check --print-all-violations --insecure-skip-tls-verify",
+        "image check --json --print-all-violations --insecure-skip-tls-verify",
     ];
 
     // add central URL to command
@@ -44,11 +44,10 @@ export async function run(): Promise<void> {
     const result = await Command.execute(roxctl, imageCheckCmd);
     if (result.exitCode !== 0) {
         core.setOutput(Outputs.PASS, false);
-        core.setOutput(Outputs.OUTPUT, result.error);
     }
+
     // set output
     core.setOutput(Outputs.PASS, true);
-    core.setOutput(Outputs.OUTPUT, result.output);
 }
 
 run().catch(core.setFailed);

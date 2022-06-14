@@ -20,8 +20,12 @@ inputs:
 outputs:
   pass:
     description: Flag indicating all policy checks succeeded 
-  output:
-    description: output from RHACS after running policy checks 
+  report_json:
+    description: "Analysis Report in JSON format"
+  report_link:
+    description: "CRDA analysis report link"
+  artifact_name:
+    description: "Name of the uploaded artifact"
 runs:
   using: 'node12'
   main: 'dist/index.js'

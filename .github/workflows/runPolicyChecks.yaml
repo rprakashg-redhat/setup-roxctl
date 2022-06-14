@@ -1,0 +1,23 @@
+name: run ACS policy checks
+on:
+  workflow_dispatch:
+    inputs:
+      image:
+        description: "Container image to analyze"
+        required: true
+        type: string
+      central:
+        description: "Central endpoint"
+        required: true
+        type: string
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: rprakashg/acs-policy-check
+        with:
+          image: ${{ image }}
+          roxctl_version: "3.70.0"
+          api_token: ${{ secrets.ROX_API_TOKEN }}
+          central_url: ${{ central }}
+

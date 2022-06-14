@@ -1,0 +1,38 @@
+name: build sample image
+on:
+  workflow_dispatch:
+    inputs:
+      sign:
+        description: "flag to tell the pipeline to sign images"
+        type: boolean
+        required: true
+      image:
+        description: "Image tag" 
+        required: true
+        type: string
+      quayUser:
+        description: "Quay user"
+        required: true
+        type: string
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: "build container image"
+      uses: redhat-actions/buildah-build@v2
+      with:
+        image: ${{ image }}
+        tags: v1 ${{ github.sha }}
+        containerFiles: |
+          ./examples/Dockerfile
+    - name: "Push to registry"
+      uses: redhat-actions/push-to-registry@v2
+      with:
+        image: ${{ steps.build-image.outputs.image }}
+        tags: ${{ steps.build-image.outputs.tags }}
+        registry: quay.io/${{ quayUser }}
+        username: ${{ quayUser }}
+        password: ${{ secrets.QUAY_TOKEN }}
+    - name: Print image url
+      run: echo "Image pushed to ${{ steps.push-to-quay.outputs.registry-paths }}"
