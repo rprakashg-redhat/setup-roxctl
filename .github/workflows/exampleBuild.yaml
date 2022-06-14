@@ -22,7 +22,7 @@ jobs:
     - name: "build container image"
       uses: redhat-actions/buildah-build@v2
       with:
-        image: ${{ image }}
+        image: ${{ inputs.image }}
         tags: v1 ${{ github.sha }}
         containerFiles: |
           ./examples/Dockerfile
@@ -31,8 +31,8 @@ jobs:
       with:
         image: ${{ steps.build-image.outputs.image }}
         tags: ${{ steps.build-image.outputs.tags }}
-        registry: quay.io/${{ quayUser }}
-        username: ${{ quayUser }}
+        registry: quay.io/${{ inputs.quayUser }}
+        username: ${{ inputs.quayUser }}
         password: ${{ secrets.QUAY_TOKEN }}
     - name: Print image url
       run: echo "Image pushed to ${{ steps.push-to-quay.outputs.registry-paths }}"
