@@ -20,6 +20,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: "build container image"
+      id: build-image
       uses: redhat-actions/buildah-build@v2
       with:
         image: ${{ inputs.image }}
@@ -27,6 +28,7 @@ jobs:
         containerFiles: |
           ./examples/Dockerfile
     - name: "Push to registry"
+      id: "push-to-registry"
       uses: redhat-actions/push-to-registry@v2
       with:
         image: ${{ steps.build-image.outputs.image }}
