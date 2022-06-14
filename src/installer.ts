@@ -7,13 +7,13 @@ import { RHACS_ASSETS_BASE_URL } from "./constants";
 
 export class Installer {
     static async installRoxctl(version: string, runnerOS: string): Promise<FindBinaryStatus> {
-        core.debug(`installing roxctl version: ${version} for OS: ${runnerOS}`);
+        core.info(`installing roxctl version: ${version} for OS: ${runnerOS}`);
 
         const url = await Installer.getDownloadUrl(version, runnerOS);
         if (!url) {
             core.debug("Error building roxctl download URL");
         }
-        core.debug("Downloading roxctl");
+        core.info("Downloading roxctl");
         return Installer.download(url);
     }
 

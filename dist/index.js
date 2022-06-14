@@ -6558,12 +6558,12 @@ const RHACS_ASSETS_BASE_URL = "https://mirror.openshift.com/pub/rhacs/assets";
 
 class Installer {
     static async installRoxctl(version, runnerOS) {
-        core.debug(`installing roxctl version: ${version} for OS: ${runnerOS}`);
+        core.info(`installing roxctl version: ${version} for OS: ${runnerOS}`);
         const url = await Installer.getDownloadUrl(version, runnerOS);
         if (!url) {
             core.debug("Error building roxctl download URL");
         }
-        core.debug("Downloading roxctl");
+        core.info("Downloading roxctl");
         return Installer.download(url);
     }
     static async download(url) {
@@ -6628,7 +6628,7 @@ async function run() {
     else {
         core.info("roxctl is already installed, skipping installation");
     }
-    core.debug(runnerOS);
+    core.info(runnerOS);
     const imageCheckCmd = [
         "image check --json --print-all-violations --insecure-skip-tls-verify",
     ];

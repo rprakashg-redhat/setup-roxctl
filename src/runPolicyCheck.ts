@@ -28,7 +28,7 @@ export async function run(): Promise<void> {
     else {
         core.info("roxctl is already installed, skipping installation");
     }
-    core.debug(runnerOS);
+    core.info(runnerOS);
     const imageCheckCmd = [
         "image check --json --print-all-violations --insecure-skip-tls-verify",
     ];
