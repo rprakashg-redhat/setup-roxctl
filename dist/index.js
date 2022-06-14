@@ -6548,7 +6548,7 @@ var io_util = __nccwpck_require__(962);
 // EXTERNAL MODULE: ./node_modules/mz/fs.js
 var fs = __nccwpck_require__(573);
 ;// CONCATENATED MODULE: ./src/constants.ts
-const RHACS_ASSETS_BASE_URL = "https://mirror.openshift.com/pub/rhacs/assets";
+const RHACS_ASSETS_BASE_URL = "https://mirror.openshift.com/pub/rhacs/assets/";
 
 ;// CONCATENATED MODULE: ./src/installer.ts
 
