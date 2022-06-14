@@ -14,7 +14,7 @@ jobs:
   analyze:
     runs-on: ubuntu-latest
     steps:
-      - uses: rprakashg-redhat/acs-policy-check@v1.3
+      - uses: rprakashg-redhat/acs-policy-check@v1.0
         with:
           image: ${{ inputs.image }}
           roxctl_version: "3.70.0"

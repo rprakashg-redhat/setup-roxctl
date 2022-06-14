@@ -6516,17 +6516,29 @@ var Inputs;
 var Outputs;
 (function (Outputs) {
     /**
-     * output from RHACS after running policy checks
+     * Name of the uploaded artifact
      * Required: false
      * Default: None.
      */
-    Outputs["OUTPUT"] = "output";
+    Outputs["ARTIFACT_NAME"] = "artifact_name";
     /**
      * Flag indicating all policy checks succeeded
      * Required: false
      * Default: None.
      */
     Outputs["PASS"] = "pass";
+    /**
+     * Analysis Report in JSON format
+     * Required: false
+     * Default: None.
+     */
+    Outputs["REPORT_JSON"] = "report_json";
+    /**
+     * CRDA analysis report link
+     * Required: false
+     * Default: None.
+     */
+    Outputs["REPORT_LINK"] = "report_link";
 })(Outputs || (Outputs = {}));
 
 // EXTERNAL MODULE: ./node_modules/@actions/tool-cache/lib/tool-cache.js
