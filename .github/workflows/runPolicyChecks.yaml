@@ -16,8 +16,8 @@ jobs:
     steps:
       - uses: rprakashg/acs-policy-check
         with:
-          image: ${{ image }}
+          image: ${{ inputs.image }}
           roxctl_version: "3.70.0"
           api_token: ${{ secrets.ROX_API_TOKEN }}
-          central_url: ${{ central }}
+          central_url: ${{ inputs.central }}
 
