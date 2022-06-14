@@ -6473,7 +6473,7 @@ class Command {
                 throw new Error(error);
             }
             return {
-                exitCode, output: stdout, error: stderr
+                exitCode, output: stdout, error: stderr,
             };
         }
         finally {
@@ -6531,13 +6531,13 @@ var Outputs;
 
 // EXTERNAL MODULE: ./node_modules/@actions/tool-cache/lib/tool-cache.js
 var tool_cache = __nccwpck_require__(784);
-;// CONCATENATED MODULE: ./src/constants.ts
-const RHACS_ASSETS_BASE_URL = "https://mirror.openshift.com/pub/rhacs/assets";
-
 // EXTERNAL MODULE: ./node_modules/@actions/io/lib/io-util.js
 var io_util = __nccwpck_require__(962);
 // EXTERNAL MODULE: ./node_modules/mz/fs.js
 var fs = __nccwpck_require__(573);
+;// CONCATENATED MODULE: ./src/constants.ts
+const RHACS_ASSETS_BASE_URL = "https://mirror.openshift.com/pub/rhacs/assets";
+
 ;// CONCATENATED MODULE: ./src/installer.ts
 
 
@@ -6558,7 +6558,7 @@ class Installer {
         if (!url) {
             return { found: false, reason: "URL to download roxctl is not valid." };
         }
-        let roxctl = await tool_cache.downloadTool(url);
+        const roxctl = await tool_cache.downloadTool(url);
         if (!(await io_util.exists(roxctl))) {
             return {
                 found: false,
@@ -6569,12 +6569,13 @@ class Installer {
         fs.chmodSync(roxctl, "0755");
         return {
             found: true,
-            path: roxctl
+            path: roxctl,
         };
     }
     static async getDownloadUrl(version, runnerOS) {
         let url = `${RHACS_ASSETS_BASE_URL}`;
-        if (version != "") {
+        core.info(`RHACS BASE URL: ${url}`);
+        if (version !== "") {
             url += version + "/bin";
         }
         if (runnerOS === "Windows") {
@@ -6583,7 +6584,7 @@ class Installer {
         else {
             url += "/Linux/roxctl";
         }
-        core.debug("Final roxctl download url: ${url}");
+        core.info(`Final roxctl download url: ${url}`);
         return url;
     }
 }
@@ -6603,7 +6604,7 @@ async function run() {
     process.env.ROX_API_TOKEN = apiToken;
     let roxctl = await io.which("roxctl", false);
     if (roxctl === "") {
-        let version = (roxctlVersion != "" ? roxctlVersion : "latest");
+        const version = (roxctlVersion !== "" ? roxctlVersion : "latest");
         core.info(`roxctl not installed, installing ${version}`);
         const binary = await Installer.installRoxctl(version, runnerOS);
         if (binary.found === false) {
@@ -6617,22 +6618,20 @@ async function run() {
     }
     core.debug(runnerOS);
     const imageCheckCmd = [
-        "image check --print-all-violations --insecure-skip-tls-verify"
+        "image check --json --print-all-violations --insecure-skip-tls-verify",
     ];
-    //add central URL to command
+    // add central URL to command
     imageCheckCmd.push("--central");
     imageCheckCmd.push(centralUrl + ":443");
-    //add image to run policy checks on
+    // add image to run policy checks on
     imageCheckCmd.push("--image");
     imageCheckCmd.push(image);
     const result = await Command.execute(roxctl, imageCheckCmd);
-    if (result.exitCode != 0) {
+    if (result.exitCode !== 0) {
         core.setOutput(Outputs.PASS, false);
-        core.setOutput(Outputs.OUTPUT, result.error);
     }
-    //set output
+    // set output
     core.setOutput(Outputs.PASS, true);
-    core.setOutput(Outputs.OUTPUT, result.output);
 }
 run().catch(core.setFailed);
 
