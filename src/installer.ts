@@ -38,7 +38,7 @@ export class Installer {
 
     static async getDownloadUrl(version: string, runnerOS: string): Promise<string> {
         let url: string | undefined = `${RHACS_ASSETS_BASE_URL}`;
-
+        core.info(`RHACS BASE URL: ${url}`);
         if (version !== "") {
             url += version + "/bin";
         }
@@ -48,7 +48,7 @@ export class Installer {
         else {
             url += "/Linux/roxctl";
         }
-        core.debug(`Final roxctl download url: ${url}`);
+        core.info(`Final roxctl download url: ${url}`);
         return url;
     }
 }
