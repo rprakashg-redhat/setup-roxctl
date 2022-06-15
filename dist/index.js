@@ -6558,12 +6558,12 @@ const RHACS_ASSETS_BASE_URL = "https://mirror.openshift.com/pub/rhacs/assets/";
 
 class Installer {
     static async installRoxctl(version, runnerOS) {
-        core.info(`installing roxctl version: ${version} for OS: ${runnerOS}`);
+        core.debug(`installing roxctl version: ${version} for OS: ${runnerOS}`);
         const url = await Installer.getDownloadUrl(version, runnerOS);
         if (!url) {
             core.debug("Error building roxctl download URL");
         }
-        core.info("Downloading roxctl");
+        core.debug("Downloading roxctl");
         return Installer.download(url);
     }
     static async download(url) {
@@ -6586,7 +6586,7 @@ class Installer {
     }
     static async getDownloadUrl(version, runnerOS) {
         let url = `${RHACS_ASSETS_BASE_URL}`;
-        core.info(`RHACS BASE URL: ${url}`);
+        core.debug(`RHACS BASE URL: ${url}`);
         if (version !== "") {
             url += version + "/bin";
         }
@@ -6596,7 +6596,7 @@ class Installer {
         else {
             url += "/Linux/roxctl";
         }
-        core.info(`Final roxctl download url: ${url}`);
+        core.debug(`Final roxctl download url: ${url}`);
         return url;
     }
 }
@@ -6617,23 +6617,23 @@ async function run() {
     let roxctl = await io.which("roxctl", false);
     if (roxctl === "") {
         const version = (roxctlVersion !== "" ? roxctlVersion : "latest");
-        core.info(`roxctl not installed, installing ${version}`);
+        core.debug(`roxctl not installed, installing ${version}`);
         const binary = await Installer.installRoxctl(version, runnerOS);
         if (binary.found === false) {
             throw new Error("Error installing");
         }
-        core.info("Installed roxctl");
+        core.debug("Installed roxctl");
         roxctl = binary.path;
     }
     else {
-        core.info("roxctl is already installed, skipping installation");
+        core.debug("roxctl is already installed, skipping installation");
     }
-    core.info(runnerOS);
+    core.debug(runnerOS);
     const imageCheckCmd = [
         "image check --json --print-all-violations --insecure-skip-tls-verify",
     ];
     // add central URL to command
-    imageCheckCmd.push("--central");
+    imageCheckCmd.push("--endpoint");
     imageCheckCmd.push(centralUrl + ":443");
     // add image to run policy checks on
     imageCheckCmd.push("--image");
