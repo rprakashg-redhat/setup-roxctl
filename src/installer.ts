@@ -4,7 +4,7 @@ import * as ioUtil from "@actions/io/lib/io-util";
 import * as fs from "mz/fs";
 
 import { FindBinaryStatus } from "./helper";
-import { RHACS_ASSETS_BASE_URL } from "./constants";
+import { RHACS_ASSETS_BASE_URL, DEST_DIR } from "./constants";
 
 export class Installer {
     static async installRoxctl(version: string, runnerOS: string): Promise<FindBinaryStatus> {
@@ -15,14 +15,14 @@ export class Installer {
             core.debug("Error building roxctl download URL");
         }
         core.debug("Downloading roxctl");
-        return Installer.download(url);
+        return Installer.download(url, runnerOS);
     }
 
-    static async download(url: string): Promise<FindBinaryStatus> {
+    static async download(url: string, runnerOS: string): Promise<FindBinaryStatus> {
         if (!url) {
             return { found: false, reason: "URL to download roxctl is not valid." };
         }
-        const roxctlBinary = await tc.downloadTool(url);
+        const roxctlBinary = await tc.downloadTool(url, DEST_DIR);
         if (!(await ioUtil.exists(roxctlBinary))) {
             return {
                 found: false,
@@ -33,7 +33,7 @@ export class Installer {
         fs.chmodSync(roxctlBinary, "0755");
         return {
             found: true,
-            path: roxctlBinary,
+            path: roxctlBinary + Installer.roxCtlBinaryByOS(runnerOS),
         };
     }
 
@@ -53,4 +53,8 @@ export class Installer {
         return url;
     }
 
+    private static roxCtlBinaryByOS(osType: string): string {
+        if (osType.includes("Windows")) return "roxctl.exe";
+        return "roxctl";
+    }
 }
