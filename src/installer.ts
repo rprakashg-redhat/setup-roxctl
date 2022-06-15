@@ -8,13 +8,13 @@ import { RHACS_ASSETS_BASE_URL } from "./constants";
 
 export class Installer {
     static async installRoxctl(version: string, runnerOS: string): Promise<FindBinaryStatus> {
-        core.info(`installing roxctl version: ${version} for OS: ${runnerOS}`);
+        core.debug(`installing roxctl version: ${version} for OS: ${runnerOS}`);
 
         const url = await Installer.getDownloadUrl(version, runnerOS);
         if (!url) {
             core.debug("Error building roxctl download URL");
         }
-        core.info("Downloading roxctl");
+        core.debug("Downloading roxctl");
         return Installer.download(url);
     }
 
@@ -39,7 +39,7 @@ export class Installer {
 
     static async getDownloadUrl(version: string, runnerOS: string): Promise<string> {
         let url: string | undefined = `${RHACS_ASSETS_BASE_URL}`;
-        core.info(`RHACS BASE URL: ${url}`);
+        core.debug(`RHACS BASE URL: ${url}`);
         if (version !== "") {
             url += version + "/bin";
         }
@@ -49,7 +49,7 @@ export class Installer {
         else {
             url += "/Linux/roxctl";
         }
-        core.info(`Final roxctl download url: ${url}`);
+        core.debug(`Final roxctl download url: ${url}`);
         return url;
     }
 

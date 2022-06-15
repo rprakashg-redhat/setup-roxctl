@@ -17,24 +17,24 @@ export async function run(): Promise<void> {
     let roxctl = await io.which("roxctl", false);
     if (roxctl === "") {
         const version: string = (roxctlVersion !== "" ? roxctlVersion : "latest");
-        core.info(`roxctl not installed, installing ${version}`);
+        core.debug(`roxctl not installed, installing ${version}`);
         const binary: FindBinaryStatus = await Installer.installRoxctl(version, runnerOS);
         if (binary.found === false) {
             throw new Error("Error installing");
         }
-        core.info("Installed roxctl");
+        core.debug("Installed roxctl");
         roxctl = binary.path;
     }
     else {
-        core.info("roxctl is already installed, skipping installation");
+        core.debug("roxctl is already installed, skipping installation");
     }
-    core.info(runnerOS);
+    core.debug(runnerOS);
     const imageCheckCmd = [
         "image check --json --print-all-violations --insecure-skip-tls-verify",
     ];
 
     // add central URL to command
-    imageCheckCmd.push("--central");
+    imageCheckCmd.push("--endpoint");
     imageCheckCmd.push(centralUrl + ":443");
 
     // add image to run policy checks on
