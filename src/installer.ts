@@ -2,9 +2,10 @@ import * as core from "@actions/core";
 import * as tc from "@actions/tool-cache";
 import * as ioUtil from "@actions/io/lib/io-util";
 import * as fs from "mz/fs";
+import * as path from "path";
 
 import { FindBinaryStatus } from "./helper";
-import { RHACS_ASSETS_BASE_URL, DEST_DIR } from "./constants";
+import { RHACS_ASSETS_BASE_URL } from "./constants";
 
 export class Installer {
     static async installRoxctl(version: string, runnerOS: string): Promise<FindBinaryStatus> {
@@ -22,7 +23,7 @@ export class Installer {
         if (!url) {
             return { found: false, reason: "URL to download roxctl is not valid." };
         }
-        const roxctlBinary = await tc.downloadTool(url, DEST_DIR);
+        const roxctlBinary = await tc.downloadTool(url);
         if (!(await ioUtil.exists(roxctlBinary))) {
             return {
                 found: false,
@@ -33,7 +34,7 @@ export class Installer {
         fs.chmodSync(roxctlBinary, "0755");
         return {
             found: true,
-            path: roxctlBinary + Installer.roxCtlBinaryByOS(runnerOS),
+            path: path.join(roxctlBinary, Installer.roxCtlBinaryByOS(runnerOS)),
         };
     }
 
