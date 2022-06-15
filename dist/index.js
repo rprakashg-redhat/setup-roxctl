@@ -6556,7 +6556,6 @@ const RHACS_ASSETS_BASE_URL = "https://mirror.openshift.com/pub/rhacs/assets/";
 
 
 
-
 class Installer {
     static async installRoxctl(version, runnerOS) {
         core.debug(`installing roxctl version: ${version} for OS: ${runnerOS}`);
@@ -6565,9 +6564,9 @@ class Installer {
             core.debug("Error building roxctl download URL");
         }
         core.debug("Downloading roxctl");
-        return Installer.download(url, runnerOS);
+        return Installer.download(url);
     }
-    static async download(url, runnerOS) {
+    static async download(url) {
         if (!url) {
             return { found: false, reason: "URL to download roxctl is not valid." };
         }
@@ -6582,7 +6581,7 @@ class Installer {
         fs.chmodSync(roxctlBinary, "0755");
         return {
             found: true,
-            path: external_path_.join(roxctlBinary, Installer.roxCtlBinaryByOS(runnerOS)),
+            path: roxctlBinary,
         };
     }
     static async getDownloadUrl(version, runnerOS) {
@@ -6599,11 +6598,6 @@ class Installer {
         }
         core.debug(`Final roxctl download url: ${url}`);
         return url;
-    }
-    static roxCtlBinaryByOS(osType) {
-        if (osType.includes("Windows"))
-            return "roxctl.exe";
-        return "roxctl";
     }
 }
 
