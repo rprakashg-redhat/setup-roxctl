@@ -8,7 +8,6 @@ import { Installer } from "./installer";
 export async function run(): Promise<void> {
     const apiToken = core.getInput(Inputs.API_TOKEN, { required: true });
     const centralUrl = core.getInput(Inputs.CENTRAL_URL, { required: true });
-    const roxctlVersion = core.getInput(Inputs.ROXCTL_VERSION, { required: false });
     const runnerOS = process.env.RUNNER_OS || process.platform;
     const image = core.getInput(Inputs.IMAGE, { required: true });
 
@@ -16,9 +15,8 @@ export async function run(): Promise<void> {
 
     let roxctl = await io.which("roxctl", false);
     if (roxctl === "") {
-        const version: string = (roxctlVersion !== "" ? roxctlVersion : "latest");
-        core.debug(`roxctl not installed, installing ${version}`);
-        const binary: FindBinaryStatus = await Installer.installRoxctl(version, runnerOS);
+        core.debug(`roxctl not installed, installing`);
+        const binary: FindBinaryStatus = await Installer.installRoxctl(centralUrl);
         if (binary.found === false) {
             throw new Error("Error installing");
         }

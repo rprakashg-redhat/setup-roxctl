@@ -18,12 +18,6 @@ export enum Inputs {
      * Default: None.
      */
     IMAGE = "image",
-    /**
-     * Roxctl version
-     * Required: false
-     * Default: None.
-     */
-    ROXCTL_VERSION = "roxctl_version",
 }
 
 export enum Outputs {
@@ -46,7 +40,7 @@ export enum Outputs {
      */
     REPORT_JSON = "report_json",
     /**
-     * CRDA analysis report link
+     * analysis report link
      * Required: false
      * Default: None.
      */

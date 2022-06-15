@@ -6506,12 +6506,6 @@ var Inputs;
      * Default: None.
      */
     Inputs["IMAGE"] = "image";
-    /**
-     * Roxctl version
-     * Required: false
-     * Default: None.
-     */
-    Inputs["ROXCTL_VERSION"] = "roxctl_version";
 })(Inputs || (Inputs = {}));
 var Outputs;
 (function (Outputs) {
@@ -6534,7 +6528,7 @@ var Outputs;
      */
     Outputs["REPORT_JSON"] = "report_json";
     /**
-     * CRDA analysis report link
+     * analysis report link
      * Required: false
      * Default: None.
      */
@@ -6548,7 +6542,7 @@ var io_util = __nccwpck_require__(962);
 // EXTERNAL MODULE: ./node_modules/mz/fs.js
 var fs = __nccwpck_require__(573);
 ;// CONCATENATED MODULE: ./src/constants.ts
-const RHACS_ASSETS_BASE_URL = "https://mirror.openshift.com/pub/rhacs/assets/";
+const CLI_DOWNLOAD_PATH = "/api/cli/download/roxctl-linux";
 
 ;// CONCATENATED MODULE: ./src/installer.ts
 
@@ -6556,21 +6550,19 @@ const RHACS_ASSETS_BASE_URL = "https://mirror.openshift.com/pub/rhacs/assets/";
 
 
 
+
 class Installer {
-    static async installRoxctl(version, runnerOS) {
-        core.debug(`installing roxctl version: ${version} for OS: ${runnerOS}`);
-        const url = await Installer.getDownloadUrl(version, runnerOS);
-        if (!url) {
-            core.debug("Error building roxctl download URL");
-        }
-        core.debug("Downloading roxctl");
+    static async installRoxctl(centralUrl) {
+        const url = external_path_.join(centralUrl, CLI_DOWNLOAD_PATH);
+        core.debug(`Downloading roxctl from ${url}`);
         return Installer.download(url);
     }
     static async download(url) {
         if (!url) {
             return { found: false, reason: "URL to download roxctl is not valid." };
         }
-        const roxctlBinary = await tool_cache.downloadTool(url);
+        const authHeader = `Authorization: Bearer ${process.env.ROX_API_TOKEN}`;
+        const roxctlBinary = await tool_cache.downloadTool(url, "", authHeader);
         if (!(await io_util.exists(roxctlBinary))) {
             return {
                 found: false,
@@ -6584,21 +6576,6 @@ class Installer {
             path: roxctlBinary,
         };
     }
-    static async getDownloadUrl(version, runnerOS) {
-        let url = `${RHACS_ASSETS_BASE_URL}`;
-        core.debug(`RHACS BASE URL: ${url}`);
-        if (version !== "") {
-            url += version + "/bin";
-        }
-        if (runnerOS === "Windows") {
-            url += "/Windows/roxctl.exe";
-        }
-        else {
-            url += "/Linux/roxctl";
-        }
-        core.debug(`Final roxctl download url: ${url}`);
-        return url;
-    }
 }
 
 ;// CONCATENATED MODULE: ./src/runPolicyCheck.ts
@@ -6610,15 +6587,13 @@ class Installer {
 async function run() {
     const apiToken = core.getInput(Inputs.API_TOKEN, { required: true });
     const centralUrl = core.getInput(Inputs.CENTRAL_URL, { required: true });
-    const roxctlVersion = core.getInput(Inputs.ROXCTL_VERSION, { required: false });
     const runnerOS = process.env.RUNNER_OS || process.platform;
     const image = core.getInput(Inputs.IMAGE, { required: true });
     process.env.ROX_API_TOKEN = apiToken;
     let roxctl = await io.which("roxctl", false);
     if (roxctl === "") {
-        const version = (roxctlVersion !== "" ? roxctlVersion : "latest");
-        core.debug(`roxctl not installed, installing ${version}`);
-        const binary = await Installer.installRoxctl(version, runnerOS);
+        core.debug(`roxctl not installed, installing`);
+        const binary = await Installer.installRoxctl(centralUrl);
         if (binary.found === false) {
             throw new Error("Error installing");
         }
