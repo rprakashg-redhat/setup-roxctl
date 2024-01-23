@@ -11,7 +11,7 @@ export class Installer {
     static async install(version: string, runnerOS: string): Promise<FindBinaryStatus> {
         let downloadUrl = path.join(CLI_DOWNLOAD_PATH);
 
-        switch (runnerOS) {
+        switch (runnerOS.toLowerCase()) {
         case "windows":
             downloadUrl = downloadUrl + version + "/windows/bin/roxctl";
             break;

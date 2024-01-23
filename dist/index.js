@@ -6473,7 +6473,7 @@ const CLI_DOWNLOAD_PATH = "https://mirror.openshift.com/pub/rhacs/assets/";
 class Installer {
     static async install(version, runnerOS) {
         let downloadUrl = external_path_.join(CLI_DOWNLOAD_PATH);
-        switch (runnerOS) {
+        switch (runnerOS.toLowerCase()) {
             case "windows":
                 downloadUrl = downloadUrl + version + "/windows/bin/roxctl";
                 break;
