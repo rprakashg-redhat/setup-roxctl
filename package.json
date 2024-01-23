@@ -1,7 +1,7 @@
 {
-    "name": "acs-policy-check",
-    "displayName": "RHACS policy check",
-    "description": "Run policy checks with Red Hat Advanced Cluster Security (RHACS)",
+    "name": "setup-roxctl",
+    "displayName": "Setup roxctl cli",
+    "description": "Download and install roxctl cli",
     "main": "dist/index.js",
     "scripts": {
         "compile": "tsc -p .",
@@ -11,7 +11,7 @@
         "generate": "npx action-io-generator --actionYml ./action.yaml --outFile ./src/generated/inputs-outputs.ts"
     },
     "keywords": [],
-    "author": "Red Hat, Inc.",
+    "author": "Ram Gopinathan",
     "license": "MIT",
     "dependencies": {
         "@actions/artifact": "^1.1.0",
