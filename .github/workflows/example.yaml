@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: setup roxctl
         id: setup-roxctl
-        uses: ./
+        uses: rprakashg-redhat/setup-roxctl@main
         with:
           version: ${{ inputs.version }}
       - name: verify
