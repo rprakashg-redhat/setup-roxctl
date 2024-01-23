@@ -18,7 +18,5 @@ jobs:
           version: ${{ inputs.version }}
       - name: verify
         run: |
-          echo "Destination = ${{ steps.setup-roxctl.outputs.destination }}"
-          ${{ steps.setup-roxctl.outputs.destination }} version
-          # roxctl version
-          #roxctl help
+          roxctl version
+          roxctl help
