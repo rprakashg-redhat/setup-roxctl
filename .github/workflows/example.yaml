@@ -18,6 +18,5 @@ jobs:
           version: ${{ inputs.version }}
       - name: verify
         run: |
-          echo "Path = ${PATH}"
-          #roxctl version
+          roxctl version
           #roxctl help
