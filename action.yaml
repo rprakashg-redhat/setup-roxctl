@@ -9,6 +9,9 @@ inputs:
     description: "Version of roxctl that needs to be installed"
     required: false
     default: "latest"
+outputs:
+  destination:
+    description: Destination directory where the roxctl cli tool is installed
 runs:
   using: 'node16'
   main: 'dist/index.js'

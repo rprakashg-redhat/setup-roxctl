@@ -9,4 +9,10 @@ export enum Inputs {
 }
 
 export enum Outputs {
+    /**
+     * Destination directory where the roxctl cli tool is installed
+     * Required: false
+     * Default: None.
+     */
+    DESTINATION = "destination",
 }

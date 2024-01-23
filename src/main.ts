@@ -1,7 +1,6 @@
 import * as core from "@actions/core";
 import * as io from "@actions/io";
-import * as path from "path";
-import { Inputs } from "./generated/inputs-outputs";
+import { Inputs, Outputs } from "./generated/inputs-outputs";
 import { FindBinaryStatus } from "./helper";
 import { Installer } from "./installer";
 
@@ -17,7 +16,7 @@ export async function run(): Promise<void> {
             throw new Error("Error installing");
         }
         core.debug("Installed roxctl");
-        path.join(binary.path);
+        core.setOutput(Outputs.DESTINATION, binary.path);
     }
     else {
         core.debug("roxctl is already installed, skipping installation");
