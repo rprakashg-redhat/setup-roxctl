@@ -19,6 +19,6 @@ jobs:
       - name: verify
         run: |
           echo "Destination = ${{ steps.setup-roxctl.outputs.destination }}"
-          ls -l ${{ steps.setup-roxctl.outputs.destination }}"
+          ls -l ${{ steps.setup-roxctl.outputs.destination }}
           # roxctl version
           #roxctl help
