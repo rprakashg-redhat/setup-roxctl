@@ -6499,7 +6499,7 @@ class Installer {
         if (!url) {
             return { found: false, reason: "URL to download roxctl is not valid." };
         }
-        const roxctlBinary = await tool_cache.downloadTool(url, "./roxctl", "");
+        const roxctlBinary = await tool_cache.downloadTool(url, "roxctl", "");
         if (!(await io_util.exists(roxctlBinary))) {
             return {
                 found: false,
