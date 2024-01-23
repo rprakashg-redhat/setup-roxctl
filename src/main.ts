@@ -16,7 +16,7 @@ export async function run(): Promise<void> {
             throw new Error("Error installing");
         }
         core.debug("Installed roxctl");
-        process.env.Path += ";" + binary.path;
+        process.env.Path += ":" + binary.path;
     }
     else {
         core.debug("roxctl is already installed, skipping installation");
