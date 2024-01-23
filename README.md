@@ -1,5 +1,5 @@
 # setup-roxctl
-Javascript Github action written in Typescript which can be used to download and install roxctl cli for Red Hat Advanced Cluster Security (RHACS) for kubernetes.
+Javascript Github action written in Typescript which can be used to download and install roxctl cli for Red Hat Advanced Cluster Security (RHACS) for kubernetes. Action will download platform specific version based on the runner OS and defaults to latest version if no version is specified via input.
 
 # Usage
 ```yaml
