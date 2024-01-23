@@ -19,4 +19,6 @@ jobs:
           output-path: "${{ github.workspace }}/bin"
       - name: verify
         run: |
-          "${{ github.workspace }}/bin/roxctl" version
+          cd "${{ github.workspace }}/bin" 
+          roxctl version
+          roxctl help
