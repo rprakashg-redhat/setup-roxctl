@@ -16,7 +16,8 @@ jobs:
         uses: ./
         with:
           version: ${{ inputs.version }}
+          output-path: ${{ runner.temp }}
       - name: verify
         run: |
-          .${{ steps.setup-roxctl.outputs.binaryPath}}/roxctl version
+          ${{ runner.temp }}/roxctl version
           roxctl help
