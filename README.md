@@ -28,4 +28,29 @@ Javascript Github action written in Typescript which can be used to download and
     version: "4.3.4"
 ```
 
+## Example 
+```yaml
+name: example
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version of roxctl to setup
+        type: string
+        default: "latest"
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: setup roxctl
+        id: setup-roxctl
+        uses: ./
+        with:
+          version: ${{ inputs.version }}
+      - name: verify
+        run: |
+          ./roxctl version
+          ./roxctl help
+```
 
