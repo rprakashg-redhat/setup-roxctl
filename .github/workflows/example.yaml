@@ -16,7 +16,7 @@ jobs:
         uses: ./
         with:
           version: ${{ inputs.version }}
-          output-path: "${{ github.workspace }}/bin"
+          output-path: "${{ github.workspace }}/bin/roxctl"
       - name: verify
         run: |
           cd "${{ github.workspace }}/bin" 
