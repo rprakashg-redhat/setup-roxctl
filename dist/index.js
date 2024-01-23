@@ -6442,12 +6442,6 @@ var io = __nccwpck_require__(436);
 var Inputs;
 (function (Inputs) {
     /**
-     * Path to download the roxctl cli
-     * Required: false
-     * Default: ""
-     */
-    Inputs["OUTPUT_PATH"] = "output-path";
-    /**
      * Version of roxctl that needs to be installed
      * Required: false
      * Default: "latest"
@@ -6456,12 +6450,6 @@ var Inputs;
 })(Inputs || (Inputs = {}));
 var Outputs;
 (function (Outputs) {
-    /**
-     * Directory where the roxctl cli was installed
-     * Required: false
-     * Default: None.
-     */
-    Outputs["BINARYPATH"] = "binaryPath";
 })(Outputs || (Outputs = {}));
 
 // EXTERNAL MODULE: ./node_modules/@actions/tool-cache/lib/tool-cache.js
@@ -6483,7 +6471,7 @@ const CLI_DOWNLOAD_PATH = "https://mirror.openshift.com/pub/rhacs/assets/";
 
 
 class Installer {
-    static async install(version, output, runnerOS) {
+    static async install(version, runnerOS) {
         let downloadUrl = external_path_.join(CLI_DOWNLOAD_PATH);
         switch (runnerOS.toLowerCase()) {
             case "windows":
@@ -6499,13 +6487,13 @@ class Installer {
                 throw new Error(`platform '${process.platform}' is not yet supported`);
         }
         core.debug(`Downloading roxctl from ${downloadUrl}`);
-        return Installer.download(downloadUrl, output);
+        return Installer.download(downloadUrl);
     }
-    static async download(url, output) {
+    static async download(url) {
         if (!url) {
             return { found: false, reason: "URL to download roxctl is not valid." };
         }
-        const roxctlBinary = await tool_cache.downloadTool(url, output, "");
+        const roxctlBinary = await tool_cache.downloadTool(url, "", "");
         if (!(await io_util.exists(roxctlBinary))) {
             return {
                 found: false,
@@ -6529,16 +6517,15 @@ class Installer {
 async function run() {
     const runnerOS = process.env.RUNNER_OS || process.platform;
     const version = core.getInput(Inputs.VERSION, { required: true });
-    const output = core.getInput(Inputs.OUTPUT_PATH, { required: false });
     const roxctl = await io.which("roxctl", false);
     if (roxctl === "") {
         core.debug(`roxctl not installed, installing`);
-        const binary = await Installer.install(version, output, runnerOS);
+        const binary = await Installer.install(version, runnerOS);
         if (binary.found === false) {
             throw new Error("Error installing");
         }
         core.debug("Installed roxctl");
-        core.setOutput(Outputs.BINARYPATH, binary.path);
+        process.env.Path += ";" + binary.path;
     }
     else {
         core.debug("roxctl is already installed, skipping installation");

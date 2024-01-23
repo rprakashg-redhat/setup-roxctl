@@ -8,7 +8,7 @@ import { FindBinaryStatus } from "./helper";
 import { CLI_DOWNLOAD_PATH } from "./constants";
 
 export class Installer {
-    static async install(version: string, output: string, runnerOS: string): Promise<FindBinaryStatus> {
+    static async install(version: string, runnerOS: string): Promise<FindBinaryStatus> {
         let downloadUrl = path.join(CLI_DOWNLOAD_PATH);
 
         switch (runnerOS.toLowerCase()) {
@@ -26,14 +26,14 @@ export class Installer {
         }
 
         core.debug(`Downloading roxctl from ${downloadUrl}`);
-        return Installer.download(downloadUrl, output);
+        return Installer.download(downloadUrl);
     }
 
-    static async download(url: string, output: string): Promise<FindBinaryStatus> {
+    static async download(url: string): Promise<FindBinaryStatus> {
         if (!url) {
             return { found: false, reason: "URL to download roxctl is not valid." };
         }
-        const roxctlBinary = await tc.downloadTool(url, output, "");
+        const roxctlBinary = await tc.downloadTool(url, "", "");
         if (!(await ioUtil.exists(roxctlBinary))) {
             return {
                 found: false,
