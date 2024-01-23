@@ -12,10 +12,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: setup roxctl
+        id: setup-roxctl
         uses: ./
         with:
           version: ${{ inputs.version }}
       - name: verify
         run: |
-          roxctl version
+          ${{ steps.setup-roxctl.outputs.binaryPath}}/roxctl version
           roxctl help

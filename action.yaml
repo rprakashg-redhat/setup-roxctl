@@ -9,7 +9,12 @@ inputs:
     description: "Version of roxctl that needs to be installed"
     required: false
     default: "latest"
-
+  output-path:
+    description: "Path to download the roxctl cli"
+    required: false
+outputs:
+  binaryPath:
+    description: "Directory where the roxctl cli was installed"
 runs:
   using: 'node16'
   main: 'dist/index.js'
