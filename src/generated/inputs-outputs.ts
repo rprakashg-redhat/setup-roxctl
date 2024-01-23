@@ -3,7 +3,7 @@ export enum Inputs {
     /**
      * Path to download the roxctl cli
      * Required: false
-     * Default: None.
+     * Default: ""
      */
     OUTPUT_PATH = "output-path",
     /**

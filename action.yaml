@@ -12,6 +12,7 @@ inputs:
   output-path:
     description: "Path to download the roxctl cli"
     required: false
+    default: ""
 outputs:
   binaryPath:
     description: "Directory where the roxctl cli was installed"

@@ -41,7 +41,7 @@ export class Installer {
                 + `File ${roxctlBinary} not found.`,
             };
         }
-        fs.chmodSync(roxctlBinary, "0755");
+        fs.chmodSync(roxctlBinary, "755");
         return {
             found: true,
             path: roxctlBinary,
