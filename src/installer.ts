@@ -13,13 +13,13 @@ export class Installer {
 
         switch (runnerOS.toLowerCase()) {
         case "windows":
-            downloadUrl = downloadUrl + version + "/windows/bin/roxctl";
+            downloadUrl = downloadUrl + version + "/bin/windows/roxctl";
             break;
         case "linux":
-            downloadUrl = downloadUrl + version + "/linux/bin/roxctl";
+            downloadUrl = downloadUrl + version + "/bin/linux/roxctl";
             break;
         case "macos":
-            downloadUrl = downloadUrl + version + "/darwin/bin/roxctl";
+            downloadUrl = downloadUrl + version + "/bin/darwin/roxctl";
             break;
         default:
             throw new Error(`platform '${process.platform}' is not yet supported`);
