@@ -33,7 +33,7 @@ export class Installer {
         if (!url) {
             return { found: false, reason: "URL to download roxctl is not valid." };
         }
-        const roxctlBinary = await tc.downloadTool(url, "", "");
+        const roxctlBinary = await tc.downloadTool(url, "./roxctl", "");
         if (!(await ioUtil.exists(roxctlBinary))) {
             return {
                 found: false,
