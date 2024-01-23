@@ -18,5 +18,5 @@ jobs:
           version: ${{ inputs.version }}
       - name: verify
         run: |
-          ${{ steps.setup-roxctl.outputs.binaryPath}}/roxctl version
+          .${{ steps.setup-roxctl.outputs.binaryPath}}/roxctl version
           roxctl help
