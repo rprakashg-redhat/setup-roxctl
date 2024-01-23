@@ -8,18 +8,32 @@ import { FindBinaryStatus } from "./helper";
 import { CLI_DOWNLOAD_PATH } from "./constants";
 
 export class Installer {
-    static async installRoxctl(centralUrl: string): Promise<FindBinaryStatus> {
-        const url = path.join(centralUrl, CLI_DOWNLOAD_PATH);
-        core.debug(`Downloading roxctl from ${url}`);
-        return Installer.download(url);
+    static async install(version: string, runnerOS: string): Promise<FindBinaryStatus> {
+        let downloadUrl = path.join(CLI_DOWNLOAD_PATH);
+
+        switch (runnerOS) {
+        case "windows":
+            downloadUrl = downloadUrl + version + "/windows/bin/roxctl";
+            break;
+        case "linux":
+            downloadUrl = downloadUrl + version + "/linux/bin/roxctl";
+            break;
+        case "macos":
+            downloadUrl = downloadUrl + version + "/darwin/bin/roxctl";
+            break;
+        default:
+            throw new Error(`platform '${process.platform}' is not yet supported`);
+        }
+
+        core.debug(`Downloading roxctl from ${downloadUrl}`);
+        return Installer.download(downloadUrl);
     }
 
     static async download(url: string): Promise<FindBinaryStatus> {
         if (!url) {
             return { found: false, reason: "URL to download roxctl is not valid." };
         }
-        const authHeader = `Authorization: Bearer ${process.env.ROX_API_TOKEN}`;
-        const roxctlBinary = await tc.downloadTool(url, "", authHeader);
+        const roxctlBinary = await tc.downloadTool(url, "", "");
         if (!(await ioUtil.exists(roxctlBinary))) {
             return {
                 found: false,

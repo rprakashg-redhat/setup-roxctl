@@ -1,0 +1,19 @@
+name: example
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version of roxctl to setup
+        type: string
+        default: "latest"
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./
+        with:
+          version: ${{ inputs.version }}
+      - name: verify
+        run: |
+          roxctl version
+          roxctl help

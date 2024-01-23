@@ -1,1 +1,1 @@
-export const CLI_DOWNLOAD_PATH = "/api/cli/download/roxctl-linux";
+export const CLI_DOWNLOAD_PATH = "https://mirror.openshift.com/pub/rhacs/assets/";

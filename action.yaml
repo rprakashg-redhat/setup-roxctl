@@ -1,28 +1,15 @@
-name: 'acs-policy-check'
-description: 'Run policy checks with Red Hat Advanced Cluster Security (RHACS)'
-author: 'Red Hat'
+name: 'setup-roxctl'
+description: 'Download and install roxctl cli'
+author: 'Ram Gopinathan'
 branding:
   icon: circle
   color: red
 inputs:
-  image:
-    description: "Container image"
-    required: true
-  api_token:
-    description: "API Token generated from central"
-    required: true
-  central_url:
-    description: "Central URL"
-    required: true
-outputs:
-  pass:
-    description: Flag indicating all policy checks succeeded 
-  report_json:
-    description: "Analysis Report in JSON format"
-  report_link:
-    description: "analysis report link"
-  artifact_name:
-    description: "Name of the uploaded artifact"
+  version:
+    description: "Version of roxctl that needs to be installed"
+    required: false
+    default: "latest"
+
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'dist/index.js'
