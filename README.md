@@ -3,7 +3,7 @@ Javascript Github action written in Typescript which can be used to download and
 
 # Usage
 ```yaml
-- uses: github.com/rprakashg-redhat/setup-roxctl@main
+- uses: rprakashg-redhat/setup-roxctl@main
   with:
     # Version of roxctl to be downloaded
     # Default: latest
