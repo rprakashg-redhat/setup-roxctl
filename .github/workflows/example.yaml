@@ -16,7 +16,11 @@ jobs:
         uses: rprakashg-redhat/setup-roxctl@main
         with:
           version: ${{ inputs.version }}
+      - run: |
+          echo "${{ steps.setup-roxctl.destination }}"
       - name: verify
         run: |
           ./roxctl version
           ./roxctl help
+        env:
+          PATH: "${PATH}:${{ steps.setup-roxctl.destination }}"
