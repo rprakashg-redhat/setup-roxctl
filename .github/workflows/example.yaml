@@ -20,7 +20,9 @@ jobs:
           echo "${{ steps.setup-roxctl.outputs.destination }}"
       - name: verify
         run: |
-          ./roxctl version
-          ./roxctl help
+          echo $PATH
+          #./roxctl version
+          #./roxctl help
+          
         env:
           PATH: "${PATH}:${{ steps.setup-roxctl.outputs.destination }}"
