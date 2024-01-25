@@ -13,5 +13,5 @@ outputs:
   destination:
     description: Destination directory where the roxctl cli tool is installed
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'dist/index.js'
